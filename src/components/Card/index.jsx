@@ -1,15 +1,25 @@
 /* eslint-disable react/prop-types */
+import { useFavoritoContext } from '../../contextos/Favoritos';
 import styles from './Card.module.css';
 import iconeFavoritar from './favoritar.png';
-// eslint-disable-next-line no-unused-vars
+import iconeDesfavoritar from './desfavoritar.png';
+
+
 const Card = ({ id, titulo, capa }) => {
+    const { favorito, adicionarFavorito } = useFavoritoContext();
+    const wasFavorite = favorito.some((fav) => fav.id === id);
+    const icone = wasFavorite ? iconeDesfavoritar : iconeFavoritar;
+
     return (
         <div className={styles.container}>
-            <img src={capa} alt={titulo} className={styles.capa}/>
+            <img src={capa} alt={titulo} className={styles.capa} />
             <h2>{titulo}</h2>
-            <img src={iconeFavoritar}
-            alt='Favoritar filme'
-            className={styles.favoritar}
+            <img src={icone}
+                alt='Favoritar filme'
+                className={styles.favoritar}
+                onClick={() => {
+                    adicionarFavorito({ id, titulo, capa })
+                }}
             />
         </div>
     )
