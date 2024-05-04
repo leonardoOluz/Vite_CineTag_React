@@ -8,11 +8,11 @@ const PaginaBase = () => {
     return (
         <main>
             <Cabecalho />
-            <Container>
-                <FavoritosProvider>
+            <FavoritosProvider>
+                <Container>
                     <Outlet />
-                </FavoritosProvider>
-            </Container>
+                </Container>
+            </FavoritosProvider>
             <Rodape />
         </main>
     )

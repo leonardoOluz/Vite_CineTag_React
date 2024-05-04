@@ -3,14 +3,22 @@ import styles from './Player.module.css';
 import Banner from '../../components/Banner';
 import Titulo from '../../components/Titulo';
 import { useParams } from 'react-router-dom';
-import videos from '../../json/db.json';
 import NaoEncontrada from '../NaoEncontrada';
+import { useEffect, useState } from 'react';
 
 const Player = () => {
     const paramentros = useParams()
-    const video = videos.find((video) => video.id == Number(paramentros.id));
+    const [video, setVideo] = useState();
 
-    if(!video) return <NaoEncontrada/>;
+    useEffect(() => {
+        fetch(`https://my-json-server.typicode.com/leonardoOluz/cinetag_api/videos/?id=${paramentros.id}`)
+            .then(res => res.json())
+            .then(dado => {
+                setVideo(...dado)
+            })
+    },[video, paramentros.id]);
+
+    if (!video) return <NaoEncontrada />;
 
     return (
         <>
@@ -24,8 +32,10 @@ const Player = () => {
                     height="100%"
                     src={video.link}
                     title={video.titulo}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture web-share"
-                    allowfullscreen>
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy='strict-origin-when-cross-origin'
+                    allowfullscreen
+                >
                 </iframe>
             </section>
         </>
